@@ -2,11 +2,10 @@ package services;
 
 import models.Customer;
 import models.Restaurant;
-import models.TableStatus;
+import models.Table;
 
 public interface RestaurantService {
-    void createAndAddTable(String name, int capacity, TableStatus tableStatus);
-
-    // boolean canAccommodate(Customer customer);
-    void assignCustomerTable(Customer customer);
+    Restaurant createRestaurant();
+    void addTable(Table table, Restaurant restaurant);
+    void assignCustomerTable(Customer customer, Restaurant restaurant);
 }

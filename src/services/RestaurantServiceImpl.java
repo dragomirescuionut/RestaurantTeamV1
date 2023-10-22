@@ -2,47 +2,40 @@ package services;
 
 import models.*;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class RestaurantServiceImpl implements RestaurantService {
-    TableService tableService;
-    Restaurant restaurant;
 
-    public RestaurantServiceImpl(TableService tableService, Restaurant restaurant) {
-        this.tableService = tableService;
-        this.restaurant = restaurant;
+    @Override
+    public Restaurant createRestaurant() {
+        Restaurant restaurant = new Restaurant();
+        restaurant.setTableList(new ArrayList<>());
+        restaurant.setReservationList(new ArrayList<>());
+        return restaurant;
     }
 
     @Override
-    public void createAndAddTable(String name, int capacity, TableStatus tableStatus) {
-        Table table = tableService.createTable(name, capacity, tableStatus);
+    public void addTable(Table table, Restaurant restaurant) {
         restaurant.getTableList().add(table);
     }
 
-    //    public boolean canAccommodate(Customer customer) {
-//        int partySize = customer.getPartySize();
-//        List<Table> tableList = restaurant.getTableList();
-//        for (Table table : tableList) {
-//            if (table.getStatus() == TableStatus.AVAILABLE && table.getCapacity() >= partySize) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-    public void assignCustomerTable(Customer customer) {
-        Reservation reservation = new Reservation();
-        int partySize = customer.getPartySize();
-        List<Table> tableList = restaurant.getTableList();
-        for (Table table : tableList) {
-            if (table.getStatus() == TableStatus.AVAILABLE && table.getCapacity() >= partySize) {
-                reservation.setCustomer(customer);
-                reservation.setTable(table);
+    @Override
+    public void assignCustomerTable(Customer customer, Restaurant restaurant) {
+        for (Table table : restaurant.getTableList()) {
+            if (table.getStatus() == TableStatus.AVAILABLE && table.getCapacity() >= customer.getPartySize()) {
                 table.setStatus(TableStatus.RESERVED);
-                restaurant.addReservation(reservation);
+                addReservation(restaurant, table, customer);
                 System.out.println("Table successfully reserved : " + table.getTableName());
                 return;
             }
         }
         System.out.println("Something went wrong! ");
+    }
+
+    public void addReservation(Restaurant restaurant, Table table, Customer customer) {
+        Reservation reservation = new Reservation();
+        reservation.setCustomer(customer);
+        reservation.setTable(table);
+        restaurant.getReservationList().add(reservation);
     }
 }

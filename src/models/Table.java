@@ -5,11 +5,11 @@ public class Table {
     private int capacity;
     private TableStatus status;
 
-    public Table(String tableName, int capacity, TableStatus status) {
-        this.tableName = tableName;
-        this.capacity = capacity;
-        this.status = status;
-    }
+//    public Table(String tableName, int capacity, TableStatus status) {
+//        this.tableName = tableName;
+//        this.capacity = capacity;
+//        this.status = status;
+//    }
 
     public String getTableName() {
         return tableName;
@@ -33,5 +33,14 @@ public class Table {
 
     public void setStatus(TableStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Table{" +
+                "tableName='" + tableName + '\'' +
+                ", capacity=" + capacity +
+                ", status=" + status +
+                '}';
     }
 }

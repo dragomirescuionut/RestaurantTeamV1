@@ -24,4 +24,12 @@ public class Customer {
     public void setPartySize(int partySize) {
         this.partySize = partySize;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "name='" + name + '\'' +
+                ", partySize=" + partySize +
+                '}';
+    }
 }

@@ -19,4 +19,12 @@ public class Reservation {
     public void setTable(Table table) {
         this.table = table;
     }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "customer=" + customer +
+                ", table=" + table +
+                '}';
+    }
 }
