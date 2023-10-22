@@ -2,6 +2,8 @@ package services;
 
 import models.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class RestaurantServiceImpl implements RestaurantService {
@@ -20,7 +22,12 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void assignCustomerTable(Customer customer, Restaurant restaurant) {
+    public void removeTable(Table table, Restaurant restaurant) {
+        restaurant.getTableList().remove(table);
+    }
+
+    @Override
+    public void assignWalkInCustomerTable(Customer customer, Restaurant restaurant) {
         for (Table table : restaurant.getTableList()) {
             if (table.getStatus() == TableStatus.AVAILABLE && table.getCapacity() >= customer.getPartySize()) {
                 table.setStatus(TableStatus.RESERVED);
@@ -29,13 +36,23 @@ public class RestaurantServiceImpl implements RestaurantService {
                 return;
             }
         }
-        System.out.println("Something went wrong! ");
+        System.out.println("Something went wrong!");
+    }
+
+    @Override
+    public void getDayReservations(LocalDate date, Restaurant restaurant) {
+        for (Reservation reservation : restaurant.getReservationList()) {
+            if (reservation.getDate().equals(date)) {
+                System.out.println(reservation);
+            } else {
+                System.out.println("No reservations for today");
+            }
+        }
     }
 
     public void addReservation(Restaurant restaurant, Table table, Customer customer) {
-        Reservation reservation = new Reservation();
-        reservation.setCustomer(customer);
-        reservation.setTable(table);
+        ReservationService reservationService = new ReservationServiceImpl();
+        Reservation reservation = reservationService.createReservation(customer, table, LocalDate.now(), LocalTime.now());
         restaurant.getReservationList().add(reservation);
     }
 }

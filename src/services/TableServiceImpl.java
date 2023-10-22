@@ -13,8 +13,4 @@ public class TableServiceImpl implements TableService {
         return table;
     }
 
-    @Override
-    public void removeTable(String name) {
-
-    }
 }
